@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>250723_22020_Planlieferprogramm.xlsx</title>
+<style>
+  :root{
+    --blue-ink:#0F2A44;
+    --blue-deep:#1B3E63;
+    --blue-mid:#2E5C8A;
+    --blue-line:#7FA8C9;
+    --blue-paper:#EEF3F8;
+    --paper:#FBFAF7;
+    --grid:#C7D6E4;
+    --amber:#D97B2E;
+    --amber-soft:#F4D9BE;
+    --green:#3F7856;
+    --green-soft:#D7E6DC;
+    --ink:#182430;
+    --ink-soft:#5B6B7A;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    font-size:15px;
+    line-height:1.5;
+  }
+  .mono{font-family:'Courier New',ui-monospace,monospace; letter-spacing:.02em;}
+
+  header.titleblock{
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, var(--blue-line) 27px, var(--blue-line) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, var(--blue-line) 27px, var(--blue-line) 28px),
+      var(--blue-ink);
+    background-blend-mode: overlay;
+    color:var(--white);
+    padding:36px 40px 28px;
+    border-bottom:6px solid var(--amber);
+    position:relative;
+  }
+  header.titleblock .eyebrow{
+    font-family:'Courier New',monospace;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:11.5px;
+    color:var(--blue-line);
+    margin-bottom:10px;
+  }
+  header.titleblock h1{
+    margin:0 0 6px;
+    font-size:32px;
+    font-weight:600;
+    max-width:820px;
+  }
+  header.titleblock .sub{
+    color:#C9D9E8;
+    font-size:14.5px;
+    max-width:760px;
+  }
+  header.titleblock .stamp{
+    position:absolute;
+    top:34px; right:40px;
+    border:2px solid var(--amber);
+    color:var(--amber);
+    font-family:'Courier New',monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    padding:8px 12px;
+    transform:rotate(3deg);
+    border-radius:2px;
+    background:rgba(217,123,46,0.06);
+  }
+
+  main{max-width:1180px; margin:0 auto; padding:0 40px 80px;}
+
+  .kpi-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--grid);
+    border:1px solid var(--grid);
+    margin-top:-1px;
+  }
+  .kpi{
+    background:var(--white);
+    padding:22px 20px;
+    text-align:left;
+  }
+  .kpi .num{
+    font-family:'Courier New',monospace;
+    font-size:34px;
+    font-weight:700;
+    color:var(--blue-deep);
+    line-height:1;
+  }
+  .kpi.warn .num{color:var(--amber);}
+  .kpi.ok .num{color:var(--green);}
+  .kpi .label{
+    margin-top:6px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  section{margin-top:56px;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    border-bottom:2px solid var(--blue-ink);
+    padding-bottom:10px;
+    margin-bottom:22px;
+  }
+  .section-head .idx{
+    font-family:'Courier New',monospace;
+    font-size:13px;
+    color:var(--amber);
+    background:var(--blue-ink);
+    padding:3px 9px;
+    border-radius:2px;
+  }
+  .section-head h2{
+    margin:0;
+    font-size:21px;
+    color:var(--blue-ink);
+  }
+  .section-note{
+    color:var(--ink-soft);
+    font-size:13.5px;
+    margin:-10px 0 20px;
+    max-width:760px;
+  }
+
+  .layout-split{
+    display:grid;
+    grid-template-columns:1.55fr 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  .chart-card{
+    background:var(--white);
+    border:1px solid var(--grid);
+    border-radius:4px;
+    padding:18px 18px 8px;
+  }
+  .chart-card h3{
+    margin:0 0 4px;
+    font-size:14px;
+    color:var(--blue-deep);
+  }
+  .chart-card .chart-wrap{position:relative; min-height:150px; display:flex; align-items:center;}
+  .chart-legend-note{font-size:12px; color:var(--ink-soft); margin-top:10px;}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--white);
+    font-size:13.3px;
+  }
+  thead th{
+    text-align:left;
+    font-family:'Courier New',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--white);
+    background:var(--blue-deep);
+    padding:9px 10px;
+    position:sticky; top:0;
+  }
+  tbody td{
+    padding:8px 10px;
+    border-bottom:1px solid var(--grid);
+    vertical-align:top;
+  }
+  tbody tr:nth-child(even){background:var(--blue-paper);}
+  tbody tr:hover{background:var(--amber-soft);}
+  td.num, th.num{text-align:right; font-family:'Courier New',monospace;}
+  .delay-pill{
+    display:inline-block;
+    padding:2px 8px;
+    border-radius:20px;
+    font-family:'Courier New',monospace;
+    font-size:12px;
+    font-weight:700;
+  }
+  .delay-hi{background:#F6D6C6; color:#A8431B;}
+  .delay-mid{background:var(--amber-soft); color:#8A5117;}
+  .delay-lo{background:#EFE6C9; color:#7A6420;}
+  .na{color:#A9B6C2; font-style:italic;}
+  .ok-pill{background:var(--green-soft); color:var(--green); padding:2px 8px; border-radius:20px; font-family:'Courier New',monospace; font-size:12px; font-weight:700;}
+
+  .table-scroll{
+    max-height:560px;
+    overflow-y:auto;
+    border:1px solid var(--grid);
+    border-radius:4px;
+  }
+
+  .last10-strip{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .plan-chip{
+    flex:1 1 150px;
+    background:var(--white);
+    border:1px solid var(--grid);
+    border-left:5px solid var(--green);
+    border-radius:3px;
+    padding:10px 12px;
+  }
+  .plan-chip.late{border-left-color:var(--amber);}
+  .plan-chip .pn{font-family:'Courier New',monospace; font-size:12px; color:var(--ink-soft);}
+  .plan-chip .bt{font-size:13px; margin:3px 0 6px; font-weight:600; color:var(--ink);}
+  .plan-chip .status{font-size:11.5px; text-transform:uppercase; letter-spacing:.04em;}
+  .plan-chip.late .status{color:var(--amber);}
+  .plan-chip:not(.late) .status{color:var(--green);}
+
+  .basis-callout{
+    background:var(--green-soft);
+    border:1px solid #BBD3C4;
+    border-left:5px solid var(--green);
+    border-radius:4px;
+    padding:18px 20px;
+    font-size:14px;
+    color:#22412E;
+  }
+  .basis-callout strong{color:var(--green);}
+
+  .basis-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    margin-top:20px;
+    align-items:start;
+  }
+
+  footer{
+    margin-top:60px;
+    padding-top:18px;
+    border-top:1px solid var(--grid);
+    font-size:11.5px;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+  }
+  @media (max-width: 860px){
+    .layout-split, .basis-grid{grid-template-columns:1fr;}
+    .kpi-row{grid-template-columns:repeat(2,1fr);}
+    header.titleblock{padding:28px 20px;}
+    main{padding:0 20px 60px;}
+    header.titleblock .stamp{position:static; display:inline-block; margin-top:14px; transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="titleblock">
+  <div class="eyebrow">ENB Brunnenrain · Projekt-Nr. 22020</div>
+  <h1>250723_22020_Planlieferprogramm.xlsx</h1>
+  <div class="sub">Auswertung der effektiven Baustellenanlieferung (Soll/Ist) mit Rückverfolgung auf Architekten- und Gebäudetechnik-Vorlagen, Pünktlichkeit der letzten Lieferungen sowie Grundlagenstatus.</div>
+  <div class="stamp">Stand: aktualisierte Daten</div>
+</header>
+
+<main>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="num" id="kpi-total">–</div><div class="label">Pläne total</div></div>
+    <div class="kpi warn"><div class="num" id="kpi-late">–</div><div class="label">zu spät geliefert</div></div>
+    <div class="kpi ok"><div class="num" id="kpi-ontime">–</div><div class="label">pünktlich / früher</div></div>
+    <div class="kpi"><div class="num" id="kpi-outstanding">–</div><div class="label">noch ausstehend</div></div>
+  </div>
+
+  <!-- 1: LATE LIST -->
+  <section>
+    <div class="section-head"><span class="idx">01</span><h2>Zu spät gelieferte Pläne — mit Verzug Architekt &amp; Gebäudetechnik</h2></div>
+    <p class="section-note">Vergleich Soll/Ist der effektiven Baustellenanlieferung (Spalten W/X). Zusätzlich ausgewiesen: Verzug der vorgelagerten Architekten- und Gebäudetechnikpläne, sofern für den jeweiligen Plantyp erfasst (nur Schalungspläne „S" durchlaufen diese Zwischenschritte im Programm).</p>
+    <div class="layout-split">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Geschoss</th><th>Haus</th><th>Bauteil</th><th>Plannr.</th><th>Art</th>
+              <th class="num">Soll</th><th class="num">Ist</th>
+              <th class="num">Verzug Baustelle</th>
+              <th class="num">Verzug Arch.</th>
+              <th class="num">Verzug Geb.-Techn.</th>
+            </tr>
+          </thead>
+          <tbody id="late-tbody"></tbody>
+        </table>
+      </div>
+      <div class="chart-card">
+        <h3>Anteil verspäteter Lieferungen</h3>
+        <div class="chart-wrap" id="chartLate"></div>
+        <p class="chart-legend-note" id="late-chart-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2: LAST 10 -->
+  <section>
+    <div class="section-head"><span class="idx">02</span><h2>Pünktlichkeit der letzten 10 gelieferten Pläne</h2></div>
+    <p class="section-note">Die 10 zeitlich zuletzt effektiv gelieferten Pläne (nach Ist-Datum Baustellenanlieferung), sortiert chronologisch.</p>
+    <div class="layout-split">
+      <div>
+        <div class="last10-strip" id="last10-strip"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Pünktlich vs. verspätet (letzte 10)</h3>
+        <div class="chart-wrap" id="chartLast10"></div>
+        <p class="chart-legend-note" id="last10-chart-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3: OUTSTANDING / GRUNDLAGEN -->
+  <section>
+    <div class="section-head"><span class="idx">03</span><h2>Grundlagen für ausstehende Pläne</h2></div>
+    <p class="section-note">Pläne ohne Ist-Datum der Baustellenanlieferung. Geprüft wird, ob die vorgelagerten Grundlagen — Architektenplan und Gebäudetechnikplan — bereits vorliegen (Ist-Datum vorhanden).</p>
+    <div class="layout-split">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Geschoss</th><th>Haus</th><th>Bauteil</th><th>Plannr.</th>
+              <th class="num">Soll Baustelle</th>
+              <th>Architektenplan</th>
+              <th>Gebäudetechnikplan</th>
+              <th>Bereit?</th>
+            </tr>
+          </thead>
+          <tbody id="outstanding-tbody"></tbody>
+        </table>
+      </div>
+      <div class="chart-card">
+        <h3>Grundlagenstatus der ausstehenden Pläne</h3>
+        <div class="chart-wrap" id="chartOutstandingBasis"></div>
+        <p class="chart-legend-note" id="outstanding-basis-note"></p>
+      </div>
+    </div>
+    <div class="basis-grid">
+      <div class="chart-card">
+        <h3>Status aller Pläne</h3>
+        <div class="chart-wrap" id="chartOutstanding"></div>
+        <p class="chart-legend-note" id="outstanding-all-note"></p>
+      </div>
+      <div class="chart-card">
+        <h3>Zusatzinfo: Grundlagen-Erfassung nach Plantyp (gesamtes Programm)</h3>
+        <div class="chart-wrap" id="chartBasisTracking"></div>
+        <p class="chart-legend-note" id="basis-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Quelle: 250723_22020_Planlieferprogramm.xlsx — Sheet „Planlieferprogramm"</span>
+    <span>Automatisch generierte Auswertung</span>
+  </footer>
+</main>
+
+<script>
+const D = {"total": 137, "n_late": 55, "n_ontime_all": 80, "n_outstanding": 2, "late": [{"geschoss": "EG", "haus": "89", "bauteil": "Decke Haus 89", "plannr": "5720", "planart": "B", "site_soll": "05.11.2024", "site_ist": "17.01.2025", "site_delay": 73, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "50", "bauteil": "Decke Haus 50", "plannr": "5730", "planart": "B", "site_soll": "12.11.2024", "site_ist": "22.01.2025", "site_delay": 71, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "91", "bauteil": "Decke Haus 91", "plannr": "5740", "planart": "B", "site_soll": "19.11.2024", "site_ist": "24.01.2025", "site_delay": 66, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "87", "bauteil": "Decke Haus 87 mit Gemeinschaftsraum", "plannr": "5710", "planart": "B", "site_soll": "29.10.2024", "site_ist": "20.12.2024", "site_delay": 52, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "50", "bauteil": "Sockel Aussen Etappen 51, 52, 53", "plannr": "5680", "planart": "B", "site_soll": "12.11.2024", "site_ist": "17.12.2024", "site_delay": 35, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "87", "bauteil": "Sockel Aussen Etappen 11, 12, 13", "plannr": "5650", "planart": "B", "site_soll": "29.10.2024", "site_ist": "02.12.2024", "site_delay": 34, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "alle", "bauteil": "Vorfabrizierte Balkone", "plannr": "240183", "planart": "E", "site_soll": "30.09.2024", "site_ist": "01.11.2024", "site_delay": 32, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "89", "bauteil": "Sockel Aussen Etappen 21, 22", "plannr": "5670", "planart": "B", "site_soll": "05.11.2024", "site_ist": "06.12.2024", "site_delay": 31, "arch_delay": null, "geb_delay": null}, {"geschoss": "3OG", "haus": "alle", "bauteil": "Stützen 3OG", "plannr": "23-1163", "planart": "E", "site_soll": "12.03.2025", "site_ist": "09.04.2025", "site_delay": 28, "arch_delay": null, "geb_delay": null}, {"geschoss": "3OG", "haus": "alle", "bauteil": "Stützen 3OG - Verbundstützen", "plannr": "241233", "planart": "E", "site_soll": "12.03.2025", "site_ist": "09.04.2025", "site_delay": 28, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Bodenplatte Etappe 11", "plannr": "3040", "planart": "B", "site_soll": "06.06.2024", "site_ist": "03.07.2024", "site_delay": 27, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Bodenplatte Etappe 12", "plannr": "4040", "planart": "B", "site_soll": "06.06.2024", "site_ist": "03.07.2024", "site_delay": 27, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Fundament Etappe 9", "plannr": "4010", "planart": "B", "site_soll": "06.06.2024", "site_ist": "02.07.2024", "site_delay": 26, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "87", "bauteil": "Fundamente Etappe 1", "plannr": "4060", "planart": "B", "site_soll": "13.06.2024", "site_ist": "08.07.2024", "site_delay": 25, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "87", "bauteil": "Bodenplatte Etappe 1", "plannr": "4070", "planart": "B", "site_soll": "13.06.2024", "site_ist": "08.07.2024", "site_delay": 25, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Bodenplatte Etappe 9", "plannr": "4030", "planart": "B", "site_soll": "06.06.2024", "site_ist": "01.07.2024", "site_delay": 25, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Fundament Etappe 12", "plannr": "4020", "planart": "B", "site_soll": "06.06.2024", "site_ist": "01.07.2024", "site_delay": 25, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Bodenplatte Etappe 6", "plannr": "3080", "planart": "B", "site_soll": "06.06.2024", "site_ist": "27.06.2024", "site_delay": 21, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "alle", "bauteil": "Stützen UG", "plannr": "23-1163", "planart": "E", "site_soll": "13.06.2024", "site_ist": "04.07.2024", "site_delay": 21, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Bodenplatte Etappe 10", "plannr": "3030", "planart": "B", "site_soll": "06.06.2024", "site_ist": "26.06.2024", "site_delay": 20, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "91", "bauteil": "Sockel Aussen Etappen 31, 32", "plannr": "5690", "planart": "B", "site_soll": "19.11.2024", "site_ist": "09.12.2024", "site_delay": 20, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "87", "bauteil": "Wände Haus 87 mit Sockel innen", "plannr": "5610", "planart": "B", "site_soll": "22.10.2024", "site_ist": "11.11.2024", "site_delay": 20, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Bodenplatte Etappe 7", "plannr": "3090", "planart": "B", "site_soll": "06.06.2024", "site_ist": "25.06.2024", "site_delay": 19, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Bodenplatte Etappe 8", "plannr": "4000", "planart": "B", "site_soll": "06.06.2024", "site_ist": "25.06.2024", "site_delay": 19, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Fundament Etappe 6", "plannr": "3050", "planart": "B", "site_soll": "06.06.2024", "site_ist": "24.06.2024", "site_delay": 18, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Fundament Etappe 7", "plannr": "3060", "planart": "B", "site_soll": "06.06.2024", "site_ist": "24.06.2024", "site_delay": 18, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Fundament Etappe 8", "plannr": "3070", "planart": "B", "site_soll": "06.06.2024", "site_ist": "24.06.2024", "site_delay": 18, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "87, 89", "bauteil": "Wände + Decke, Haus A (87 + 89)", "plannr": "2100", "planart": "S", "site_soll": "21.10.2024", "site_ist": "08.11.2024", "site_delay": 18, "arch_delay": 23, "geb_delay": -38}, {"geschoss": "EG", "haus": "87, 89", "bauteil": "Fassadenwände, Haus A (87 + 89)", "plannr": "2110", "planart": "S", "site_soll": "21.10.2024", "site_ist": "08.11.2024", "site_delay": 18, "arch_delay": 23, "geb_delay": -38}, {"geschoss": "UG", "haus": "91", "bauteil": "Sockel Aussen Etappen 33, 4", "plannr": "5660", "planart": "B", "site_soll": "19.11.2024", "site_ist": "06.12.2024", "site_delay": 17, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "TG", "bauteil": "Rampe Decke", "plannr": "3030", "planart": "B", "site_soll": "11.09.2024", "site_ist": "27.09.2024", "site_delay": 16, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "50", "bauteil": "Wände Haus 50 mit Sockel innen", "plannr": "5630", "planart": "B", "site_soll": "05.11.2024", "site_ist": "21.11.2024", "site_delay": 16, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "89", "bauteil": "Fundamente Etappe 2", "plannr": "5000", "planart": "B", "site_soll": "27.06.2024", "site_ist": "10.07.2024", "site_delay": 13, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "89", "bauteil": "Bodenplatte Etappe 2", "plannr": "5010", "planart": "B", "site_soll": "27.06.2024", "site_ist": "10.07.2024", "site_delay": 13, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "89", "bauteil": "Wände Haus 89 mit Sockel innen", "plannr": "5620", "planart": "B", "site_soll": "29.10.2024", "site_ist": "11.11.2024", "site_delay": 13, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "91", "bauteil": "Fundamente Etappe 3", "plannr": "5020", "planart": "B", "site_soll": "19.07.2024", "site_ist": "29.07.2024", "site_delay": 10, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "91", "bauteil": "Bodenplatte Etappe 3", "plannr": "5030", "planart": "B", "site_soll": "19.07.2024", "site_ist": "29.07.2024", "site_delay": 10, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "TG", "bauteil": "Rampe Wände", "plannr": "3020", "planart": "B", "site_soll": "11.09.2024", "site_ist": "20.09.2024", "site_delay": 9, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "50", "bauteil": "Wände Etappe 4+5", "plannr": "5250", "planart": "B", "site_soll": "11.09.2024", "site_ist": "20.09.2024", "site_delay": 9, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "91", "bauteil": "Wände Haus 91 mit Sockel innen", "plannr": "5640", "planart": "B", "site_soll": "12.11.2024", "site_ist": "21.11.2024", "site_delay": 9, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "alle", "bauteil": "Stützen EG", "plannr": "23-1163", "planart": "E", "site_soll": "18.09.2024", "site_ist": "27.09.2024", "site_delay": 9, "arch_delay": null, "geb_delay": null}, {"geschoss": "AG", "haus": "89", "bauteil": "Decke Haus 89", "plannr": "6040", "planart": "B", "site_soll": "24.06.2025", "site_ist": "30.06.2025", "site_delay": 6, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Bodenplatte Rampe", "plannr": "3010", "planart": "B", "site_soll": "06.09.2024", "site_ist": "11.09.2024", "site_delay": 5, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "alle", "bauteil": "Stützen EG - Verbundstützen", "plannr": "241233", "planart": "E", "site_soll": "18.09.2024", "site_ist": "23.09.2024", "site_delay": 5, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "50", "bauteil": "Bodenplatte Etappe 5 Treppenhaus", "plannr": "5040", "planart": "B", "site_soll": "19.07.2024", "site_ist": "23.07.2024", "site_delay": 4, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Fundament Etappe 10", "plannr": "3010", "planart": "B", "site_soll": "06.06.2024", "site_ist": "10.06.2024", "site_delay": 4, "arch_delay": null, "geb_delay": null}, {"geschoss": "BoPla", "haus": "TG", "bauteil": "Fundament Etappe 11", "plannr": "3020", "planart": "B", "site_soll": "06.06.2024", "site_ist": "10.06.2024", "site_delay": 4, "arch_delay": null, "geb_delay": null}, {"geschoss": "EG", "haus": "91", "bauteil": "Wände + Decke, Haus A (91)", "plannr": "2120", "planart": "S", "site_soll": "11.11.2024", "site_ist": "15.11.2024", "site_delay": 4, "arch_delay": 2, "geb_delay": -59}, {"geschoss": "EG", "haus": "50", "bauteil": "Wände + Decke, Haus B (50)", "plannr": "2090", "planart": "S", "site_soll": "04.11.2024", "site_ist": "08.11.2024", "site_delay": 4, "arch_delay": 9, "geb_delay": -52}, {"geschoss": "UG", "haus": "87", "bauteil": "Decke Haus 87 mit Differenzwand", "plannr": "5390", "planart": "B", "site_soll": "15.10.2024", "site_ist": "18.10.2024", "site_delay": 3, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "TG", "bauteil": "Stützen TG", "plannr": "23-1163", "planart": "E", "site_soll": "30.05.2024", "site_ist": "31.05.2024", "site_delay": 1, "arch_delay": null, "geb_delay": null}, {"geschoss": "UG", "haus": "91, 50", "bauteil": "Decke zwischen Haus 50&91", "plannr": "5430", "planart": "B", "site_soll": "22.10.2024", "site_ist": "23.10.2024", "site_delay": 1, "arch_delay": null, "geb_delay": null}, {"geschoss": "2OG", "haus": "alle", "bauteil": "Stützen 2OG", "plannr": "23-1163", "planart": "E", "site_soll": "17.02.2025", "site_ist": "18.02.2025", "site_delay": 1, "arch_delay": null, "geb_delay": null}, {"geschoss": "2OG", "haus": "alle", "bauteil": "Stützen 2OG - Verbundstützen", "plannr": "241233", "planart": "E", "site_soll": "17.02.2025", "site_ist": "18.02.2025", "site_delay": 1, "arch_delay": null, "geb_delay": null}, {"geschoss": "3OG", "haus": "87", "bauteil": "Wände Haus 87", "plannr": "5910", "planart": "B", "site_soll": "07.05.2025", "site_ist": "08.05.2025", "site_delay": 1, "arch_delay": null, "geb_delay": null}], "last10": [{"plannr": "2250", "bauteil": "Wände + Decke, Haus A (91)", "haus": "91", "geschoss": "AG", "soll": "20.06.2025", "ist": "02.06.2025", "ontime": true, "delay": -18}, {"plannr": "5990", "bauteil": "Wände Haus 87", "haus": "87", "geschoss": "AG", "soll": "05.06.2025", "ist": "04.06.2025", "ontime": true, "delay": -1}, {"plannr": "6000", "bauteil": "Wände Haus 89", "haus": "89", "geschoss": "AG", "soll": "12.06.2025", "ist": "04.06.2025", "ontime": true, "delay": -8}, {"plannr": "6020", "bauteil": "Wände Haus 91", "haus": "91", "geschoss": "AG", "soll": "20.06.2025", "ist": "04.06.2025", "ontime": true, "delay": -16}, {"plannr": "2240", "bauteil": "Wände + Decke, Haus B (50)", "haus": "50", "geschoss": "AG", "soll": "30.06.2025", "ist": "13.06.2025", "ontime": true, "delay": -17}, {"plannr": "6030", "bauteil": "Decke Haus 87", "haus": "87", "geschoss": "AG", "soll": "19.06.2025", "ist": "18.06.2025", "ontime": true, "delay": -1}, {"plannr": "6010", "bauteil": "Wände Haus 50", "haus": "50", "geschoss": "AG", "soll": "30.06.2025", "ist": "23.06.2025", "ontime": true, "delay": -7}, {"plannr": "6040", "bauteil": "Decke Haus 89", "haus": "89", "geschoss": "AG", "soll": "24.06.2025", "ist": "30.06.2025", "ontime": false, "delay": 6}, {"plannr": "6060", "bauteil": "Decke Haus 91", "haus": "91", "geschoss": "AG", "soll": "03.07.2025", "ist": "30.06.2025", "ontime": true, "delay": -3}, {"plannr": "6050", "bauteil": "Decke Haus 50", "haus": "50", "geschoss": "AG", "soll": "25.07.2025", "ist": "23.07.2025", "ontime": true, "delay": -2}], "cnt_ontime_last10": 9, "n_s": 26, "n_s_with_basis": 25, "outstanding": [{"geschoss": "AG2", "haus": "alle", "bauteil": "Dach ", "plannr": "9000", "planart": "S", "site_soll": "04.07.2026", "arch_soll": "01.06.2026", "arch_ist": "01.06.2026", "arch_ok": true, "geb_soll": "01.06.2026", "geb_ist": "04.06.2026", "geb_ok": true, "both_ok": true}, {"geschoss": "AG2", "haus": "alle", "bauteil": "Dach ", "plannr": "9100", "planart": "S", "site_soll": "14.07.2026", "arch_soll": "09.06.2026", "arch_ist": "01.07.2026", "arch_ok": true, "geb_soll": "09.06.2026", "geb_ist": null, "geb_ok": false, "both_ok": false}], "n_outstanding_both_ok": 1, "n_outstanding_missing": 1};
+
+function delayPillClass(days){
+  if(days === null || days === undefined) return null;
+  if(days > 30) return 'delay-hi';
+  if(days > 10) return 'delay-mid';
+  return 'delay-lo';
+}
+function delayCell(days){
+  if(days === null || days === undefined) return '<span class="na">keine Daten</span>';
+  const cls = delayPillClass(days);
+  if(days <= 0) return '<span class="ok-pill">pünktlich</span>';
+  return `<span class="delay-pill ${cls}">+${days} T.</span>`;
+}
+function basisCell(soll, ist, ok){
+  if(!soll && !ist) return '<span class="na">keine Daten</span>';
+  if(ok) return `<span class="ok-pill">vorhanden — ${ist}</span>`;
+  return `<span class="delay-pill delay-hi">fehlt (Soll ${soll})</span>`;
+}
+
+// KPIs
+document.getElementById('kpi-total').textContent = D.total;
+document.getElementById('kpi-late').textContent = D.n_late;
+document.getElementById('kpi-ontime').textContent = D.n_ontime_all;
+document.getElementById('kpi-outstanding').textContent = D.n_outstanding;
+
+// Section 1 table
+const tbody = document.getElementById('late-tbody');
+D.late.forEach(r=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${r.geschoss ?? ''}</td>
+    <td>${r.haus ?? ''}</td>
+    <td>${r.bauteil ?? ''}</td>
+    <td class="mono">${r.plannr}</td>
+    <td>${r.planart}</td>
+    <td class="num mono">${r.site_soll}</td>
+    <td class="num mono">${r.site_ist}</td>
+    <td class="num">${delayCell(r.site_delay)}</td>
+    <td class="num">${delayCell(r.arch_delay)}</td>
+    <td class="num">${delayCell(r.geb_delay)}</td>
+  `;
+  tbody.appendChild(tr);
+});
+document.getElementById('late-chart-note').textContent =
+  `${D.n_late} von ${D.total} Plänen (${Math.round(D.n_late/D.total*100)} %) wurden später als geplant auf die Baustelle geliefert.`;
+
+// Section 2 chips + list
+const strip = document.getElementById('last10-strip');
+D.last10.forEach(p=>{
+  const div = document.createElement('div');
+  div.className = 'plan-chip' + (p.ontime ? '' : ' late');
+  div.innerHTML = `
+    <div class="pn">#${p.plannr} · ${p.geschoss ?? ''} ${p.haus ? '· Haus '+p.haus : ''}</div>
+    <div class="bt">${p.bauteil}</div>
+    <div class="mono" style="font-size:11.5px;color:var(--ink-soft);">Soll ${p.soll} → Ist ${p.ist}</div>
+    <div class="status">${p.ontime ? 'Pünktlich / früher' : 'Verspätet (+' + p.delay + ' T.)'}</div>
+  `;
+  strip.appendChild(div);
+});
+document.getElementById('last10-chart-note').textContent =
+  `${D.cnt_ontime_last10} von 10 der zuletzt gelieferten Pläne trafen den Soll-Termin oder waren früher da.`;
+
+// Section 3 table
+const outTbody = document.getElementById('outstanding-tbody');
+D.outstanding.forEach(o=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${o.geschoss ?? ''}</td>
+    <td>${o.haus ?? ''}</td>
+    <td>${o.bauteil ?? ''}</td>
+    <td class="mono">${o.plannr}</td>
+    <td class="num mono">${o.site_soll}</td>
+    <td>${basisCell(o.arch_soll, o.arch_ist, o.arch_ok)}</td>
+    <td>${basisCell(o.geb_soll, o.geb_ist, o.geb_ok)}</td>
+    <td>${o.both_ok ? '<span class="ok-pill">bereit</span>' : '<span class="delay-pill delay-hi">nicht bereit</span>'}</td>
+  `;
+  outTbody.appendChild(tr);
+});
+document.getElementById('outstanding-basis-note').textContent =
+  `${D.n_outstanding_both_ok} von ${D.n_outstanding} ausstehenden Plänen haben beide Grundlagen (Architekt + Gebäudetechnik) bereits vorliegen.`;
+document.getElementById('outstanding-all-note').textContent =
+  `${D.total-D.n_outstanding} von ${D.total} Plänen bereits mit Ist-Datum · ${D.n_outstanding} noch offen.`;
+
+// Basis note
+document.getElementById('basis-note').textContent =
+  `Nur Schalungspläne (Planart „S", ${D.n_s} von ${D.total} Plänen) durchlaufen im Programm separate Architekten-/Gebäudetechnik-Schritte. Bei allen ${D.n_s} liegen beide Grundlagen (Architekt + Gebäudetechnik) bereits vor.`;
+
+// ---- Pure SVG pie charts (no external dependencies) ----
+function renderPie(containerId, segments){
+  // segments: [{label, value, color}, ...]
+  const container = document.getElementById(containerId);
+  const total = segments.reduce((s,x)=>s+x.value,0) || 1;
+  const size = 200, r = 80, cx = size/2, cy = size/2;
+  let angle = -Math.PI/2;
+  let paths = '';
+
+  segments.forEach(seg=>{
+    const frac = seg.value/total;
+    if(frac <= 0) return;
+    const startAngle = angle;
+    const endAngle = angle + frac*2*Math.PI;
+    const x1 = cx + r*Math.cos(startAngle), y1 = cy + r*Math.sin(startAngle);
+    const x2 = cx + r*Math.cos(endAngle), y2 = cy + r*Math.sin(endAngle);
+    const largeArc = (endAngle-startAngle) > Math.PI ? 1 : 0;
+    if(frac >= 0.9999){
+      // full circle
+      paths += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${seg.color}" stroke="#fff" stroke-width="2"/>`;
+    } else {
+      paths += `<path d="M ${cx} ${cy} L ${x1.toFixed(2)} ${y1.toFixed(2)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z" fill="${seg.color}" stroke="#fff" stroke-width="2"/>`;
+    }
+    angle = endAngle;
+  });
+
+  const legend = segments.map(seg=>{
+    const pct = Math.round(seg.value/total*100);
+    return `<div style="display:flex;align-items:center;gap:6px;font-size:11.5px;margin:3px 0;">
+      <span style="width:11px;height:11px;background:${seg.color};display:inline-block;border-radius:2px;flex:none;"></span>
+      <span>${seg.label} — <strong>${seg.value}</strong> (${pct}%)</span>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div style="display:flex; align-items:center; gap:20px; height:100%;">
+      <svg viewBox="0 0 ${size} ${size}" style="width:150px;height:150px;flex:none;">${paths}</svg>
+      <div>${legend}</div>
+    </div>`;
+}
+
+const palette = {
+  amber:'#D97B2E', amberSoft:'#F4D9BE',
+  green:'#3F7856', greenSoft:'#D7E6DC',
+  blue:'#2E5C8A', blueSoft:'#C7D6E4'
+};
+
+renderPie('chartLate', [
+  {label:'Zu spät geliefert', value:D.n_late, color:palette.amber},
+  {label:'Pünktlich / früher', value:D.n_ontime_all, color:palette.green}
+]);
+
+renderPie('chartLast10', [
+  {label:'Pünktlich / früher', value:D.cnt_ontime_last10, color:palette.green},
+  {label:'Verspätet', value:10-D.cnt_ontime_last10, color:palette.amber}
+]);
+
+renderPie('chartOutstandingBasis', [
+  {label:'Beide Grundlagen vorhanden', value:D.n_outstanding_both_ok, color:palette.green},
+  {label:'Mind. eine Grundlage fehlt', value:D.n_outstanding_missing, color:palette.amber}
+]);
+
+renderPie('chartOutstanding', [
+  {label:'Ist-Datum vorhanden', value:D.total-D.n_outstanding, color:palette.blue},
+  {label:'Ausstehend (kein Ist-Datum)', value:D.n_outstanding, color:palette.amberSoft}
+]);
+
+renderPie('chartBasisTracking', [
+  {label:'Schalungspläne mit erfasster Grundlage', value:D.n_s_with_basis, color:palette.green},
+  {label:'Andere Plantypen (Grundlage nicht separat erfasst)', value:D.total-D.n_s_with_basis, color:palette.blueSoft}
+]);
+</script>
+</body>
+</html>
